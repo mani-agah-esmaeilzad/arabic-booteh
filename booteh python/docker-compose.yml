@@ -41,12 +41,8 @@ services:
   frontend:
     container_name: booteh-frontend
     build:
-<<<<<<< HEAD
       context: .
       dockerfile: Dockerfile.frontend
-=======
-      context: ./frontend
->>>>>>> main
     restart: unless-stopped
     ports:
       - "5173:80"
