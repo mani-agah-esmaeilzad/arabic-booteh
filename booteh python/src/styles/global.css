@@ -1,0 +1,37 @@
+:root {
+  font-family: 'Cairo', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--surface);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  direction: rtl;
+  background: radial-gradient(circle at top left, rgba(66, 215, 240, 0.15), transparent 45%),
+    radial-gradient(circle at bottom right, rgba(120, 92, 255, 0.15), transparent 40%),
+    var(--surface);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+
+html, body, #root {
+  height: 100%;
+}
