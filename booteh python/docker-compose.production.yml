@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # MySQL Database Service
   mysql:
     image: mysql:8.0
     container_name: hrbooteh-mysql
@@ -20,32 +19,38 @@ services:
       - hrbooteh-network
     command: --default-authentication-plugin=mysql_native_password
 
-  # Next.js Application Service
   app:
-    container_name: hrbooteh-app
+    container_name: hrbooteh-api
     build:
       context: .
       dockerfile: Dockerfile.production
-      target: production
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "8000:8000"
     env_file:
       - .env.production
     environment:
-      - NODE_ENV=production
       - DB_HOST=mysql
     depends_on:
       - mysql
     networks:
       - hrbooteh-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
 
-  # Nginx Reverse Proxy Service
+  frontend:
+    container_name: hrbooteh-frontend
+    build:
+      context: ./frontend
+    restart: unless-stopped
+    environment:
+      - VITE_BACKEND_URL=/api
+    networks:
+      - hrbooteh-network
+
   nginx:
     image: nginx:alpine
     container_name: hrbooteh-nginx
@@ -59,15 +64,14 @@ services:
       - ./logs:/var/log/nginx
     depends_on:
       - app
+      - frontend
     networks:
       - hrbooteh-network
 
-# Networks
 networks:
   hrbooteh-network:
     driver: bridge
 
-# Volumes
 volumes:
   mysql-data:
     driver: local
