@@ -44,8 +44,12 @@ services:
   frontend:
     container_name: hrbooteh-frontend
     build:
+<<<<<<< HEAD
       context: .
       dockerfile: Dockerfile.frontend
+=======
+      context: ./frontend
+>>>>>>> main
     restart: unless-stopped
     environment:
       - VITE_BACKEND_URL=/api
