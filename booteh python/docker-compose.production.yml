@@ -41,6 +41,16 @@ services:
       timeout: 10s
       retries: 3
 
+  frontend:
+    container_name: hrbooteh-frontend
+    build:
+      context: ./frontend
+    restart: unless-stopped
+    environment:
+      - VITE_BACKEND_URL=/api
+    networks:
+      - hrbooteh-network
+
   nginx:
     image: nginx:alpine
     container_name: hrbooteh-nginx
@@ -54,6 +64,7 @@ services:
       - ./logs:/var/log/nginx
     depends_on:
       - app
+      - frontend
     networks:
       - hrbooteh-network
 

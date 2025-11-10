@@ -38,6 +38,20 @@ services:
       - DB_PORT=${DB_PORT}
       - JWT_SECRET=${JWT_SECRET}
 
+  frontend:
+    container_name: booteh-frontend
+    build:
+      context: ./frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - fastapi-app
+    networks:
+      - app-network
+    environment:
+      - VITE_BACKEND_URL=http://fastapi-app:8000
+
 networks:
   app-network:
     driver: bridge
